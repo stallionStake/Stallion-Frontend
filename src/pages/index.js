@@ -1,7 +1,7 @@
-// pages/index.js or src/pages/index.js
-
-export default function Home() {
+const Lobby = () => {
   return (
-      <div>Main content of your homepage goes here.</div>
-  );
+    <div>Main content of your homepage goes here.</div>
+  )
 }
+
+export default Lobby

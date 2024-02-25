@@ -2,15 +2,15 @@ const MobileMenuButton = () => {
   return (
     <button
       type="button"
-      class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+      className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
       aria-controls="mobile-menu"
       aria-expanded="false"
     >
-      <span class="absolute -inset-0.5"></span>
-      <span class="sr-only">Open main menu</span>
+      <span className="absolute -inset-0.5"></span>
+      <span className="sr-only">Open main menu</span>
 
       <svg
-        class="block h-6 w-6"
+        className="block h-6 w-6"
         fill="none"
         viewBox="0 0 24 24"
         stroke-width="1.5"
@@ -25,7 +25,7 @@ const MobileMenuButton = () => {
       </svg>
 
       <svg
-        class="hidden h-6 w-6"
+        className="hidden h-6 w-6"
         fill="none"
         viewBox="0 0 24 24"
         stroke-width="1.5"
