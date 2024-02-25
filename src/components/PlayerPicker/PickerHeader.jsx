@@ -1,5 +1,3 @@
-import CounterDisplay from "./CounterDisplay";
-
 const PickerHeader = () => {
   return (
     <div className="container mx-auto">

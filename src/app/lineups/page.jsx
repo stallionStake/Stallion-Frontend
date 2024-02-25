@@ -1,5 +1,5 @@
-import PickerHeader from "@/components/PlayerPicker/PickerHeader";
-import PlayerPicker from "@/components/PlayerPicker/PlayerPicker";
+import PickerHeader from "../../components/PlayerPicker/PickerHeader";
+import PlayerPicker from "../../components/PlayerPicker/PlayerPicker";
 
 const Lineups = () => {
   return (
