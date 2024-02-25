@@ -14,7 +14,17 @@ const PlayerPicker = () => {
   const [availablePlayers, setAvailablePlayers] = useState(players);
 
   const handleAddPlayer = (playerId, playerSalary) => {
-    if (counter < 5) {
+    const totalSalaryOfLineup = lineup.reduce(
+      (total, player) => total + player.salary,
+      0
+    );
+    const remainingSalaryAfterAddition = remainingSalary - playerSalary;
+
+    if (
+      counter < 5 &&
+      remainingSalaryAfterAddition >= 0 &&
+      totalSalaryOfLineup + playerSalary <= 50000
+    ) {
       const selectedPlayer = availablePlayers.find(
         (player) => player.id === playerId
       );
@@ -23,7 +33,7 @@ const PlayerPicker = () => {
         const updatedAvailablePlayers = availablePlayers.filter(
           (player) => player.id !== playerId
         );
-        setRemainingSalary(remainingSalary - playerSalary);
+        setRemainingSalary(remainingSalaryAfterAddition);
         setLineup([...lineup, selectedPlayer]);
         setCounter(counter + 1);
         setAvailablePlayers(updatedAvailablePlayers);
