@@ -1,5 +1,3 @@
-import Image from "next/image"
-
 const WalletButton = () => {
     return (
       <div class="relative ml-3">

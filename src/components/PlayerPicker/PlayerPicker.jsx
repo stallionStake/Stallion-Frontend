@@ -15,14 +15,21 @@ const PlayerPicker = () => {
 
   const handleAddPlayer = (playerId, playerSalary) => {
     if (counter < 5) {
-      const selectedPlayer = players.find((player) => player.id === playerId);
-      const updatedAvailablePlayers = availablePlayers.filter(
-        (player) => player.id !== playerId
+      const selectedPlayer = availablePlayers.find(
+        (player) => player.id === playerId
       );
-      setRemainingSalary(remainingSalary - playerSalary);
-      setLineup([...lineup, selectedPlayer]);
-      setCounter(counter + 1);
-      setAvailablePlayers(updatedAvailablePlayers);
+      const isPlayerInLineup = lineup.some((player) => player.id === playerId);
+      if (!isPlayerInLineup) {
+        const updatedAvailablePlayers = availablePlayers.filter(
+          (player) => player.id !== playerId
+        );
+        setRemainingSalary(remainingSalary - playerSalary);
+        setLineup([...lineup, selectedPlayer]);
+        setCounter(counter + 1);
+        setAvailablePlayers(updatedAvailablePlayers);
+      } else {
+        console.log("Player is already in the lineup");
+      }
     }
   };
 
@@ -78,6 +85,7 @@ const PlayerPicker = () => {
                   <th>Name</th>
                   <th>FPPG</th>
                   <th>Salary</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody className="w-full divide-y divide-gray-900">
