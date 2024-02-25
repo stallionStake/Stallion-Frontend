@@ -45,9 +45,15 @@ const PlayerPicker = () => {
 
   const handleRemovePlayer = (playerId, playerSalary) => {
     const updatedLineup = lineup.filter((player) => player.id !== playerId);
+    const selectedPlayer = lineup.find((player) => player.id === playerId);
+
     setRemainingSalary(remainingSalary + playerSalary);
     setLineup(updatedLineup);
     setCounter(counter - 1);
+
+    if (selectedPlayer) {
+      setAvailablePlayers([...availablePlayers, selectedPlayer]);
+    }
   };
 
   return (
@@ -66,7 +72,7 @@ const PlayerPicker = () => {
               </tr>
             </thead>
             <tbody className="w-full divide-y divide-gray-900">
-              {players.map((player) => (
+              {availablePlayers.sort((a, b) => a.id - b.id).map((player) => (
                 <tr key={player.id}>
                   <td className="px-4">{player.position}</td>
                   <td>{player.name}</td>
