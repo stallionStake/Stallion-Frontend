@@ -6,7 +6,9 @@ const Lineups = () => {
       <div>
         <h1 className="font-bold px-5 py-5">My Lineups</h1>
       </div>
-      <PlayerPicker />
+      <div>
+        <PlayerPicker />
+      </div>
     </div>
   );
 };
