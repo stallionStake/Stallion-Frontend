@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { players } from "../data/players";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
-import PickerHeader from "@/components/PlayerPicker/PickerHeader";
+import EnterContestButton from "@/components/buttons/EnterContestButton";
+import Table from '../Table';
+
 
 const PlayerPicker = () => {
   const initialSalaryAmount = 50000;
@@ -12,6 +13,20 @@ const PlayerPicker = () => {
   const [counter, setCounter] = useState(0);
   const [remainingSalary, setRemainingSalary] = useState(initialSalaryAmount);
   const [availablePlayers, setAvailablePlayers] = useState(players);
+  const availablePlayersColumns = [
+    { Header: 'Position', accessor: 'position' },
+    { Header: 'Name', accessor: 'name' },
+    { Header: 'FPPG', accessor: 'fppg' },
+    { Header: 'Salary', accessor: 'salary' },
+    { Header: '', accessor: 'actions', iconAdd: faPlus },
+  ];
+  const selectedPlayersColumns = [
+    { Header: 'Position', accessor: 'position' },
+    { Header: 'Name', accessor: 'name' },
+    { Header: 'FPPG', accessor: 'fppg' },
+    { Header: 'Salary', accessor: 'salary' },
+    { Header: '', accessor: 'actions', iconAdd: faMinus },
+  ];
 
   const handleAddPlayer = (playerId, playerSalary) => {
     const totalSalaryOfLineup = lineup.reduce(
@@ -58,74 +73,33 @@ const PlayerPicker = () => {
 
   return (
     <>
-      <PickerHeader remainingSalary={remainingSalary} counter={counter} />
       <div className="container mx-auto">
-        <div className="flex justify-between bg-blue-900 h-80 overflow-auto rounded-b-md">
-          <table className="w-full divide-y divide-gray-600">
-            <thead className="bg-gray-900 text-justify w-full">
-              <tr>
-                <th className="px-4 ">Position</th>
-                <th>Name</th>
-                <th>FPPG</th>
-                <th>Salary</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody className="w-full divide-y divide-gray-900">
-              {availablePlayers.sort((a, b) => a.id - b.id).map((player) => (
-                <tr key={player.id}>
-                  <td className="px-4">{player.position}</td>
-                  <td>{player.name}</td>
-                  <td>{player.fppg}</td>
-                  <td>{player.salary}</td>
-                  <td>
-                    <button
-                      onClick={() => handleAddPlayer(player.id, player.salary)}
-                      disabled={counter >= 5}
-                    >
-                      <FontAwesomeIcon icon={faPlus} />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="text-right">
+          <span className="text-lg text-white">Players Selected: <span className="text-lime-600 text-xl font-bold">{counter}/5</span></span>
+          <span className="text-lg text-white ml-4">Remaining Salary: <span className="text-xl text-lime-600 font-bold">${remainingSalary}</span></span>
         </div>
-        <div>
-          <h2>Lineup</h2>
-          <div className="flex justify-between bg-blue-900 h-80 overflow-auto rounded-b-md">
-            <table className="w-full divide-y divide-gray-600">
-              <thead className="bg-gray-900 text-justify w-full">
-                <tr>
-                  <th className="px-4 ">Position</th>
-                  <th>Name</th>
-                  <th>FPPG</th>
-                  <th>Salary</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody className="w-full divide-y divide-gray-900">
-                {lineup.map((player) => (
-                  <tr key={player.id}>
-                    <td className="px-4">{player.position}</td>
-                    <td>{player.name}</td>
-                    <td>{player.fppg}</td>
-                    <td>{player.salary}</td>
-                    <td>
-                      <button
-                        onClick={() =>
-                          handleRemovePlayer(player.id, player.salary)
-                        }
-                      >
-                        <FontAwesomeIcon icon={faMinus} />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        <div className="grid grid-cols-2 gap-6">
+          {/* Table 1: Available Players */}
+          <div className="container mx-auto px-4 bg-blue-900 rounded-xl">
+            <Table
+              label={"Available Players"}
+              columns={availablePlayersColumns}
+              data={availablePlayers} // Ensure this is the correct data structure
+              onAdd={(player) => handleAddPlayer(player.id, player.salary)}
+            />
+          </div>
+
+          {/* Table 2: Lineup */}
+          <div className="container mx-auto px-4 bg-blue-900 rounded-xl">
+              <Table
+              label={"My Lineup"}
+              columns={selectedPlayersColumns}
+              data={lineup} // Ensure this is the correct data structure
+              onAdd={(player) => handleRemovePlayer(player.id, player.salary)}
+            />
           </div>
         </div>
+        <EnterContestButton />
       </div>
     </>
   );
