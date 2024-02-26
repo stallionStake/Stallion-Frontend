@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { players } from "../data/players";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
-import EnterContestButton from "@/components/buttons/EnterContestButton";
+import EnterContestButton from "../buttons/EnterContestButton";
 import Table from '../Table';
 
 
