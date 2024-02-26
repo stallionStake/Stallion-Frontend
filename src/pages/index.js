@@ -5,7 +5,7 @@ const Lobby = () => {
   return (
     <div>
       <div class="container mx-auto pt-10">
-        <Link href="/contests" className="hover:text-lime-600">
+        <Link href="/createcontest" className="hover:text-lime-600">
           Create Contest
         </Link>
       </div>

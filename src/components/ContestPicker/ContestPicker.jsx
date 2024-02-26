@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import { contests } from "../data/contests";
-import CreateContestBtn from "../buttons/CreateContestBtn";
 
 const ContestPicker = () => {
   const router = useRouter();
@@ -16,13 +15,19 @@ const ContestPicker = () => {
             <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
               <div class="bg-blue-900 overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
                 <table class="min-w-full divide-y divide-gray-500 table-auto">
-                  <thead class="bg-gray-900">
+                  <thead class="bg-gray-900 sticky top-0">
                     <tr>
                       <th
                         scope="col"
                         class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6"
                       >
                         Contest
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-3 py-3.5 text-left text-sm font-semibold"
+                      >
+                        Entry Fee
                       </th>
                       <th
                         scope="col"
@@ -53,6 +58,9 @@ const ContestPicker = () => {
                       <tr key={contest.id}>
                         <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">
                           {contest.name}
+                        </td>
+                        <td class="whitespace-nowrap px-3 py-4 text-sm">
+                          {contest.entryFee}
                         </td>
                         <td class="whitespace-nowrap px-3 py-4 text-sm">
                           {contest.yield}

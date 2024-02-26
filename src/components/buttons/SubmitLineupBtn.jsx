@@ -8,11 +8,11 @@ const handleSubmit = (e) => {
 
 const SubmitLineup = () => {
   return (
-    <div class="container mx-7 flex justify-start">
+    <div class="container mx-auto flex justify-end">
       <form onSubmit={handleSubmit}>
         <button
           type="submit"
-          className="border text-gray-300 hover:bg-gray-700 hover:text-blue-500 rounded-md px-3 py-2 text-sm font-medium"
+          className="rounded-md bg-lime-700 px-3 py-2 text-sm font-semibold shadow-sm hover:bg-green-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
           Enter Contest
         </button>
