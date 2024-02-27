@@ -1,13 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { players } from "../data/players";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import Table from "../Table";
+import SubmitLineup from "../buttons/SubmitLineupBtn";
 
 const PlayerPicker = () => {
   const initialSalaryAmount = 50000;
   const [lineup, setLineup] = useState([]);
+  const [lineupForSubmission, setLineupForSubmissions] = useState([]);
+  useEffect(() => {
+    const lineforSubmision = lineup.map(player => player.id)
+    setLineupForSubmissions(lineforSubmision)
+  }, [lineup]);
   const [counter, setCounter] = useState(0);
   const [remainingSalary, setRemainingSalary] = useState(initialSalaryAmount);
   const [availablePlayers, setAvailablePlayers] = useState(players);
@@ -107,6 +113,9 @@ const PlayerPicker = () => {
               data={lineup} // Ensure this is the correct data structure
               onAdd={(player) => handleRemovePlayer(player.id, player.salary)}
             />
+          </div>
+          <div class="my-7">
+            <SubmitLineupBtn playerSelection={lineupForSubmission} />
           </div>
         </div>
       </div>

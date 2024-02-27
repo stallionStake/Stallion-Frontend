@@ -30,7 +30,7 @@ const LineupsByContestPage = () => {
         )}
       </div>
       <div class="my-7">
-        <SubmitLineupBtn />
+        <SubmitLineupBtn playerSelection={[2, 3, 4]} />
       </div>
     </div>
   );

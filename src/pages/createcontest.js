@@ -1,7 +1,8 @@
 "use client";
 import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
-import { abi } from "../components/data/abi";
+import createGameAbi from "../components/data/abi/createGameAbi.json";
 import Link from "next/link";
+import { parseUnits } from "viem";
 
 const CreateContestPage = () => {
   const { data: hash, isPending, writeContract } = useWriteContract();
@@ -9,14 +10,51 @@ const CreateContestPage = () => {
   async function submit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const contestId = formData.get("contestId");
+    console.log(formData)
+    const vaultAddress = formData.get("vaultAddress");
+    const endDate = formData.get("endDate");
+    const entryLimit = formData.get("entryLimit");
+    const name = formData.get("name");
+    const noLoss = formData.get("noLoss");
+    const entryFee = formData.get("entryFee");
+    const startDate = formData.get("startDate");
+
+
+    const options = [
+      {
+        label: "USDC",
+        value: "0x6b175474e89094c44da98b954eedeac495271d0f",
+      },
+      {
+        label: "ETH",
+        value: "",
+      }
+    ];
+    const tokenList = [
+      {
+        address: "0x6b175474e89094c44da98b954eedeac495271d0f",
+        symbol: "ETH",
+        decimals: 18,
+      },
+      {
+        address: "0x6b175474e89094c44da98b954eedeac495271d0f",
+        symbol: "USDC",
+        decimals: 6,
+      },
+    ];
+
+    const selectedToken = tokenList.find(token => token.symbol === "USDC")
+        const formattedEntryfee = parseUnits(entryFee, selectedToken.decimals);
+
+
+    console.log(entryFee)
 
     // Pass the contract address, ABI, function name, and arguments to writeContract
     writeContract({
-      address: "YOUR_CONTRACT_ADDRESS", // Replace with your contract address
-      abi: abi, // The ABI of your smart contract
-      functionName: "createContest", // The name of the function you want to call
-      args: [contestId, formData], // The arguments to pass to the function
+      address: "0xEc2638E834848717bd991BC2c5FBDd9C19EEf5Be", // Replace with your contract address
+      abi: createGameAbi, // The ABI of your smart contract
+      functionName: "createGame", // The name of the function you want to call
+      args: [vaultAddress, startDate, endDate, formattedEntryfee, vaultAddress, entryLimit, noLoss], // The arguments to pass to the function
     });
   }
 
@@ -58,6 +96,23 @@ const CreateContestPage = () => {
 
                   <div class="col-span-full">
                     <label
+                      htmlFor="selected-Token"
+                      class="block text-md font-medium leading-6"
+                    >
+                      Preferred Currency
+                    </label>
+                    <select
+                      id="selected-Token"
+                      name="selectedToken"
+                      className="mt-1 text-gray-600 block w-full border-gray-300 rounded-md shadow-sm focus:ring-lime-700 focus:border-lime-700 sm:text-sm"
+                    >
+                      <option value="USDC">USDC</option>
+                      <option value="ETH">ETH</option>
+                    </select>
+                  </div>
+
+                  <div class="col-span-full">
+                    <label
                       htmlFor="entry-fee"
                       class="block text-md font-medium leading-6"
                     >
@@ -68,7 +123,7 @@ const CreateContestPage = () => {
                       id="entry-fee"
                       name="entryFee"
                       className="text-gray-600 mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-lime-700 focus:border-lime-700 sm:text-sm"
-                      placeholder="Amount required to enter your contest"
+                      placeholder="Enter the limit of entries allowed"
                       required
                     />
                   </div>
@@ -130,18 +185,20 @@ const CreateContestPage = () => {
                       className="block text-md font-medium leading-6"
                     >
                       Is this a No Loss Contest?
-                      <div class='font-extralight text-sm py-2 pl-2'>No Loss means you will compete only for Yield and your entry fee will be claimable once the contest has ended.</div>
+                      <div class="font-extralight text-sm py-2 pl-2">
+                        No Loss means you will compete only for Yield and your
+                        entry fee will be claimable once the contest has ended.
+                      </div>
                     </label>
                     <select
                       id="no-loss"
                       name="noLoss"
                       className="mt-1 text-gray-600 block w-full border-gray-300 rounded-md shadow-sm focus:ring-lime-700 focus:border-lime-700 sm:text-sm"
                     >
-                      <option value="yes">Yes</option>
-                      <option value="no">No</option>
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
                     </select>
                   </div>
-
                 </div>
               </div>
             </div>
@@ -156,6 +213,7 @@ const CreateContestPage = () => {
               </div>
               <div class="">
                 <button
+                  
                   disabled={isPending}
                   type="submit"
                   className="rounded-md bg-lime-700 px-3 py-2 text-sm font-semibold shadow-sm hover:bg-green-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"

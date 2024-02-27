@@ -1,12 +1,17 @@
 "use client";
 
-const handleSubmit = (e) => {
-  e.preventDefault();
-  // Implement logic to handle the submission of the lineup data
-  console.log("Submitting lineup data...");
-};
+import { useWriteContract } from "wagmi";
 
-const SubmitLineup = () => {
+
+const SubmitLineup = ({ playerSelection }) => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Implement logic to handle the submission of the lineup data
+    useWriteContract({
+      args: [playerSelection, contestId],
+    });
+    console.log("Submitting lineup data...");
+  };
   return (
     <div class="container mx-auto flex justify-end">
       <form onSubmit={handleSubmit}>
