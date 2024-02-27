@@ -1,29 +1,44 @@
 "use client";
 import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
-import { abi } from "../components/data/abi";
 import Link from "next/link";
+import { useState } from "react";
+import fantasyGameAbi from "../components/data/fantasyGameAbi.json";
+import {useDynamicContext } from '@dynamic-labs/sdk-react-core'
 
 const CreateContestPage = () => {
-  const { data: hash, isPending, writeContract } = useWriteContract();
+    const { primaryWallet } = useDynamicContext();
+  const { data: hash, isPending, writeContractAsync } = useWriteContract();
+  const [contestId, setContestId] = useState(undefined);
+  const [entryFee, setEntryFee] = useState(undefined);
+   const [entryLimit, setEntryLimit] = useState(undefined);
+  const [startDate, setStartDate] = useState(undefined);
+  const [endDate, setEndDate] = useState(undefined);
+  const [vaultAddress, setvaultAddress] = useState(undefined);
+  const [noLoss, setNoLoss] = useState(true);
 
   async function submit(e) {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const contestId = formData.get("contestId");
+    const differenceInMilliseconds = new Date(endDate).getTime() - new Date(startDate).getTime()
+    const days = Math.round
+      (differenceInMilliseconds / (1000 * 3600 * 24));
+    console.log(new Date(startDate).getTime() / 1000, days, entryFee, entryLimit, noLoss);
 
-    // Pass the contract address, ABI, function name, and arguments to writeContract
-    writeContract({
-      address: "YOUR_CONTRACT_ADDRESS", // Replace with your contract address
-      abi: abi, // The ABI of your smart contract
-      functionName: "createContest", // The name of the function you want to call
-      args: [contestId, formData], // The arguments to pass to the function
+    const resp = await writeContractAsync({
+      address: "0x129B09324E119d5c4E772cb2e3dddf7AFb8c5853", // Replace with your contract address
+      abi: fantasyGameAbi, // The ABI of your smart contract
+      functionName: "createGame", // The name of the function you want to call
+      args: ['0x9E9c7E0862E7DE18A41D9Af8b472F5A888191C8f', new Date(startDate).getTime() / 1000, days, entryFee, entryLimit, noLoss], // The arguments to pass to the function
+      //connector: primaryWallet.connector
     });
+    console.log(entryFee, 'res', resp);
+
   }
 
   const { isLoading: isConfirming, isSuccess: isConfirmed } =
     useWaitForTransactionReceipt({
       hash,
     });
+  console.log('isConfirming', isConfirming, 'isConfirmed', isConfirmed, 'hash', hash)
 
   return (
     <>
@@ -53,6 +68,7 @@ const CreateContestPage = () => {
                       className="text-gray-600 mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-lime-700 focus:border-lime-700 sm:text-sm"
                       placeholder="Your contest name"
                       required
+                      onChange={(e) => setContestId(e.target.value)}
                     />
                   </div>
 
@@ -70,6 +86,7 @@ const CreateContestPage = () => {
                       className="text-gray-600 mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-lime-700 focus:border-lime-700 sm:text-sm"
                       placeholder="Amount required to enter your contest"
                       required
+                      onChange={(e) => setEntryFee(e.target.value)}
                     />
                   </div>
 
@@ -87,6 +104,7 @@ const CreateContestPage = () => {
                       className="text-gray-600 mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-lime-700 focus:border-lime-700 sm:text-sm"
                       placeholder="Enter the limit of entries allowed"
                       required
+                      onChange={(e) => setEntryLimit(e.target.value)}
                     />
                   </div>
 
@@ -104,6 +122,7 @@ const CreateContestPage = () => {
                       className="text-gray-600 mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-lime-700 focus:border-lime-700 sm:text-sm"
                       placeholder="Enter the start date of your contest"
                       required
+                      onChange={(e) => setStartDate(e.target.value)}
                     />
                   </div>
 
@@ -121,6 +140,7 @@ const CreateContestPage = () => {
                       className="mt-1 text-gray-600 block w-full border-gray-300 rounded-md shadow-sm focus:ring-lime-700 focus:border-lime-700 sm:text-sm"
                       placeholder="Enter the end date of your contest"
                       required
+                      onChange={(e) => setEndDate(e.target.value)}
                     />
                   </div>
 
@@ -136,9 +156,10 @@ const CreateContestPage = () => {
                       id="no-loss"
                       name="noLoss"
                       className="mt-1 text-gray-600 block w-full border-gray-300 rounded-md shadow-sm focus:ring-lime-700 focus:border-lime-700 sm:text-sm"
+                      onChange={(e) => setNoLoss(e.target.value)}
                     >
-                      <option value="yes">Yes</option>
-                      <option value="no">No</option>
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
                     </select>
                   </div>
 

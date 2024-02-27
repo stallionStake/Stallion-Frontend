@@ -1,75 +1,48 @@
 import UserContests from "../components/MyContests/UserContests";
 import ContestPicker from "../components/ContestPicker/ContestPicker";
-import {  useWriteContract } from "wagmi"; // Import useReadContract hook
-import { abi } from "../components/data/fantasyFactory.json"; // Import the ABI of your smart contract
+import { contests } from "../components/data/contests";
 
 const ContestsPage = () => {
-  const { data: hash, writeContract } = useWriteContract() 
-  const mockContest = {
-    contestName: "Mock Contest",
-    points: 100,
-    entryFee: 10,
-    currentPrize: 1000,
-    endDate: "2024-02-29",
-    actions: "Actions",
-  };
-
-  const mockData = [mockContest];
+  // Modify the contests data to include a button for active contests and a disabled button for inactive contests
+  const modifiedContests = contests.map((contest) => {
+    return {
+      ...contest,
+      status:
+        contest.status === "active" ? (
+          <button className="bg-lime-700 hover:bg-green-800 text-sm font-semibold px-2 py-1 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Claim
+          </button>
+        ) : (
+          <button
+            disabled
+            className="bg-gray-600 text-gray-400 text-sm font-semibold px-2 py-1 rounded shadow-sm cursor-not-allowed"
+          >
+            Claim
+          </button>
+        ),
+    };
+  });
 
   const activeContestColumns = [
-    { Header: "Contest", accessor: "contestName" },
-    { Header: "Points", accessor: "points" },
+    { Header: "Contest", accessor: "name" },
     { Header: "Entry Fee", accessor: "entryFee" },
-    { Header: "Current Prize", accessor: "currentPrize" },
-    { Header: "End Date", accessor: "endDate" },
-    { Header: "", accessor: "actions" },
+    { Header: "Yield", accessor: "yield" },
+    { Header: "Entries", accessor: "entries" },
+    { Header: "Start Date", accessor: "startDate" },
+    { Header: "Status", accessor: "status" },
   ];
-
-  // if (isLoading) {
-  //   return <p>Loading...</p>;
-  // }
-
-  // if (error) {
-  //   return <p>Error: {error.message}</p>;
-  // }
-  let activeContests;
-  const currentTime = new Date(); // Get the current time
-  const twoMinutesLater = new Date(currentTime.getTime() + 2 * 60000)
 
   return (
     <>
       <div>
-          <UserContests
-            label="Your Contests"
-            columns={activeContestColumns}
-            data={[]} // Empty array if no active contests are found
-          />
-         <button
-          type="submit"
-          className="rounded-md bg-lime-700 px-3 py-2 text-sm font-semibold shadow-sm hover:bg-green-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          onClick={
-            writeContract({
-              address: "0xEc2638E834848717bd991BC2c5FBDd9C19EEf5Be",
-              abi: abi,
-              functionName: "createGame", 
-              args: [
-                0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d, // vault
-                twoMinutesLater, // _gameStart
-                1, // _nDays
-                1, //_gameCost 
-                10, // _maxEntries
-                true, // _noLose
-              ],
-            })
-          }
-        >
-          Enter Contest
-        </button>
+        <UserContests
+          label="Your Contests"
+          columns={activeContestColumns}
+          data={modifiedContests} // Pass the modified contests data here
+        />
       </div>
       <div>
-        <div class="container mx-auto pt-10">
-            Live Contests
-        </div>
+        <div className="container mx-auto pt-10">Live Contests</div>
         <div>
           <ContestPicker />
         </div>

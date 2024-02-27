@@ -1,4 +1,7 @@
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import {
+  DynamicContextProvider,
+  DynamicWidget,
+} from "@dynamic-labs/sdk-react-core";
 
 const WalletButton = () => {
   // Directly return the ConnectButton component
@@ -6,10 +9,11 @@ const WalletButton = () => {
     <div className="relative ml-3">
       <div className="">
         {/* Render ConnectButton directly */}
-        <ConnectButton />
+        {/* <ConnectButton /> */}
+        <DynamicWidget />
       </div>
     </div>
   );
-}
+};
 
 export default WalletButton;

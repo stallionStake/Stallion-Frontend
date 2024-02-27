@@ -29,9 +29,6 @@ const LineupsByContestPage = () => {
           </p>
         )}
       </div>
-      <div class="my-7">
-        <SubmitLineupBtn />
-      </div>
     </div>
   );
 };

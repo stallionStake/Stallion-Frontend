@@ -9,19 +9,21 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@dynamic-labs/ethereum": "^2.0.0-alpha.6",
+    "@dynamic-labs/sdk-react-core": "^2.0.0-alpha.6",
+    "@dynamic-labs/wagmi-connector": "^2.0.0-alpha.6",
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-brands-svg-icons": "^6.5.1",
     "@fortawesome/free-regular-svg-icons": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "@rainbow-me/rainbowkit": "^2.0.1",
     "@tailwindcss/forms": "^0.5.7",
     "@tanstack/react-query": "^5.24.1",
     "@tanstack/react-table": "^8.12.0",
     "next": "14.1.0",
     "react": "^18",
     "react-dom": "^18",
-    "viem": "^2.7.14",
+    "viem": "^2.7.16",
     "wagmi": "^2.5.7"
   },
   "devDependencies": {

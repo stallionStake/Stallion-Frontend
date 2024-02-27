@@ -179,5 +179,43 @@
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_vault",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_gameStart",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_nDays",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_gameCost",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_maxEntries",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "_noLoss",
+        "type": "bool"
+      }
+    ],
+    "name": "enterGame",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
   }
 ]

@@ -12,8 +12,8 @@ const Navbar = () => {
           </div>
           <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             <div class="flex flex-shrink-0 items-center">
-              <div class="text-gray-300 hover:text-blue-500 rounded-md">
-                Logo
+              <div class="text-white text-md rounded-md font-bold">
+                Stallion Stake
               </div>
             </div>
             <div class="hidden sm:ml-6 sm:block">

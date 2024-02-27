@@ -88,12 +88,12 @@ export const players = [
     salary: 9700,
   },
   {
-    id: 12,
+    id: 20000515,
     name: "Jimmy Butler",
     position: "SF",
-    team: "Miami Heat",
+    team: "MIA",
     fppg: 44.2,
-    salary: 9300,
+    salary: 10275,
   },
   {
     id: 13,
