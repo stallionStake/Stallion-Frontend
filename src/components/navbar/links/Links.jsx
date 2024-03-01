@@ -7,7 +7,7 @@ const Links = () => {
       path: "/",
     },
     {
-      title: "Contests",
+      title: "My Contests",
       path: "/contests",
     },
     {
